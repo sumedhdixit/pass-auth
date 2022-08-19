@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { handleAuth } from '../api/Auth';
 
 const Auth = () => {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
+
+	const authRequest = async (e, endpoint) => {
+		e.preventDefault();
+		const data = await handleAuth(endpoint, { username, password });
+		console.log(data);
+	};
 
 	return (
 		<div className="p-3 h-full">
@@ -22,10 +29,16 @@ const Auth = () => {
 					className="w-full rounded border p-3 mt-3 border-gray-500"
 				/>
 				<div className="mt-5">
-					<button className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-teal-400">
+					<button
+						className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-teal-400"
+						onClick={(e) => authRequest(e, 'login')}
+					>
 						Login
 					</button>
-					<button className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-cyan-500">
+					<button
+						className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-cyan-500"
+						onClick={(e) => authRequest(e, 'register')}
+					>
 						Register
 					</button>
 				</div>
