@@ -3,7 +3,9 @@ import { useState } from 'react';
 const Auth = () => {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
-
+	const registerUser = (username, password) => {
+		fetch('URL');
+	};
 	return (
 		<div className="p-3 h-full">
 			<form className=" md:w-2/4 lg:1/4 mx-auto">
@@ -25,7 +27,10 @@ const Auth = () => {
 					<button className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-teal-400">
 						Login
 					</button>
-					<button className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-cyan-500">
+					<button
+						className="w-full p-2 mt-3 font-extrabold uppercase text-white tracking-wider rounded bg-cyan-500"
+						onClick={registerUser()}
+					>
 						Register
 					</button>
 				</div>
