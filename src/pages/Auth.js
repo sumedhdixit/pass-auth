@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { handleAuth } from '../api/Auth';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
 
+	const navigate = useNavigate();
+
 	const authRequest = async (e, endpoint) => {
 		e.preventDefault();
 		const data = await handleAuth(endpoint, { username, password });
 		console.log(data);
+
+		if (data.success) {
+			navigate('/webauthn');
+		}
 	};
 
 	return (

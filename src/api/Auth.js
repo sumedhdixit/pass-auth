@@ -1,8 +1,10 @@
-export const handleAuth = async (endpoint, body) => {
+exports.handleAuth = async (endpoint, body) => {
 	const res = await fetch(
 		`${process.env.REACT_APP_BACKEND_URI}/auth/${endpoint}`,
 		{
 			method: 'POST',
+			withCredentials: true,
+			credentials: 'include',
 			body: JSON.stringify(body),
 			headers: {
 				'Content-Type': 'application/json',
@@ -18,13 +20,14 @@ export const handleAuth = async (endpoint, body) => {
 	return data;
 };
 
-export const fetchWithCookies = async (endpoint, body) => {
+exports.fetchWithCookies = async (endpoint, body) => {
 	const res = await fetch(
 		`${process.env.REACT_APP_BACKEND_URI}/webauthn/${endpoint}`,
 		{
 			method: 'POST',
 			body: JSON.stringify(body),
-			includeCredentials: true,
+			withCredentials: true,
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
