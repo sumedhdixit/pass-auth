@@ -1,4 +1,12 @@
+import fetchWithCookies from '../api/Auth';
+import startRegistration from 'SimpleWebAuthnBrowser';
+
 const Main = () => {
+	const authRequestOptions = async (e) => {
+		e.preventDefault();
+		const data = await fetchWithCookies('registerRequest');
+		console.log(data);
+	};
 	return (
 		<div className="p-3 h-full">
 			<div className="mt-4">
@@ -10,7 +18,10 @@ const Main = () => {
 			</div>
 			<div className="w-full mt-20">
 				<div className="md:flex ">
-					<button className="block w-full text-lg md:text-xl text-white p-2 mt-3 md:mr-3 rounded bg-teal-400">
+					<button
+						className="block w-full text-lg md:text-xl text-white p-2 mt-3 md:mr-3 rounded bg-teal-400"
+						onClick={() => authRequestOptions()}
+					>
 						{/* <IoMdFingerPrint className=" m-2" /> */}
 						Add a credential
 					</button>

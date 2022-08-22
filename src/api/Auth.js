@@ -20,7 +20,7 @@ export const handleAuth = async (endpoint, body) => {
 
 export const fetchWithCookies = async (endpoint, body) => {
 	const res = await fetch(
-		`${process.env.REACT_APP_BACKEND_URI}/${endpoint}`,
+		`${process.env.REACT_APP_BACKEND_URI}/webauthn/${endpoint}`,
 		{
 			method: 'POST',
 			body: JSON.stringify(body),
@@ -37,4 +37,4 @@ export const fetchWithCookies = async (endpoint, body) => {
 
 	const data = await res.json();
 	return data;
-}
+};
