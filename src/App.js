@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Main from './pages/Main';
 import Auth from './pages/Auth';
 import Verify from './pages/Verify';
+import RemoteRegister from './pages/RemoteRegister';
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 						<Route path="/" element={<Auth />} />
 						<Route path="/webauthn" element={<Main />} />
 						<Route path="/proxy" element={<Verify />} />
+						<Route path="/remoteRegister" element={<RemoteRegister />} />
 					</Routes>
 				</Router>
 			</div>

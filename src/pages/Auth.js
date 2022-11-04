@@ -2,10 +2,10 @@ import { useState, useContext } from 'react';
 import { handleAuth, handleProxy } from '../api/Auth';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+// import { QRCodeSVG } from 'qrcode.react';
 
 const Auth = () => {
-	const { appUsername, setAppUsername, proxyID, setProxyID } =
-		useContext(AuthContext);
+	const { appUsername, setAppUsername } = useContext(AuthContext);
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
 
@@ -30,9 +30,9 @@ const Auth = () => {
 
 		const body = { username, proxy_type: 'signin' };
 		const data = await handleProxy('create', body);
-		setProxyID(data.id);
+		console.log(data.id);
 
-		navigate(`/proxy?id=${proxyID}`);
+		navigate(`/proxy?id=${data.id}&username=${username}`);
 		// "/proxy/singInRequest?proxyid"
 	};
 
@@ -74,7 +74,6 @@ const Auth = () => {
 					</button>
 					{/* New page with the username and verify button */}
 					{/* Verify link: /webauthn/signinrequest?proxyid={proxyID} */}
-					{proxyID && <p>QR with proxyID {proxyID}</p>}
 				</div>
 			</form>
 		</div>

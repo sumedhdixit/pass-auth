@@ -8,35 +8,33 @@ import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 
 const Verify = () => {
-	const [proxyID, setProxyID] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleVerify = async (e) => {
 		e.preventDefault();
+		console.log(
+			`${searchParams.get('id')} for ${searchParams.get('username')}`
+		);
 
 		const data = await handleProxy(
-			`registerRequest?id=${proxyID.get('id')}`,
-			{}
+			`signInRequest?id=${searchParams.get('id')}`,
+			{
+				username: searchParams.get('username'),
+			}
 		);
 		console.log(data);
 
 		if (data.success) {
 			try {
-				let attResp = await startRegistration(data.options);
+				let attResp = await startAuthentication(data.options);
 				console.log(attResp);
-				const registerResponse = await fetchWithCookies(
-					'registerResponse',
-					attResp
-				);
-				console.log(registerResponse);
+				const signInResponse = await handleProxy('signInResponse', {
+					attestation: attResp,
+					username: searchParams.get('username'),
+				});
+				console.log(signInResponse);
 			} catch (error) {
-				if (error.name === 'InvalidStateError') {
-					console.log(
-						'Error: Authenticator was probably already registered by user'
-					);
-				} else {
-					console.log(error);
-				}
-
+				console.log(error);
 				throw error;
 			}
 		}
