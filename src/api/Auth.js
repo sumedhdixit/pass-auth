@@ -41,3 +41,25 @@ exports.fetchWithCookies = async (endpoint, body) => {
 	const data = await res.json();
 	return data;
 };
+
+exports.handleProxy = async (endpoint, body) => {
+	const res = await fetch(
+		`${process.env.REACT_APP_BACKEND_URI}/proxy/${endpoint}`,
+		{
+			method: 'POST',
+			withCredentials: true,
+			credentials: 'include',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+	);
+
+	if (!res.ok) {
+		throw new Error(`An error has occured: ${res.status}`);
+	}
+
+	const data = await res.json();
+	return data;
+};

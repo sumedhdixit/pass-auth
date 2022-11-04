@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { handleAuth } from '../api/Auth';
+import { useState, useContext } from 'react';
+import { handleAuth, handleProxy } from '../api/Auth';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const Auth = () => {
+	const { appUsername, setAppUsername, proxyID, setProxyID } =
+		useContext(AuthContext);
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
 
@@ -13,9 +16,24 @@ const Auth = () => {
 		const data = await handleAuth(endpoint, { username, password });
 		console.log(data);
 
-		if (data.success) {
+		if (data.success && endpoint === 'login') {
+			setAppUsername(username);
 			navigate('/webauthn');
+		} else {
+			setAppUsername(username);
+			navigate('/');
 		}
+	};
+
+	const proxyRequest = async (e) => {
+		e.preventDefault();
+
+		const body = { username, proxy_type: 'signin' };
+		const data = await handleProxy('create', body);
+		setProxyID(data.id);
+
+		navigate(`/proxy?id=${proxyID}`);
+		// "/proxy/singInRequest?proxyid"
 	};
 
 	return (
@@ -48,6 +66,15 @@ const Auth = () => {
 					>
 						Register
 					</button>
+					<button
+						className="w-full p-2 mt-5 font-extrabold uppercase text-white tracking-wider rounded bg-cyan-300"
+						onClick={(e) => proxyRequest(e)}
+					>
+						Show QR
+					</button>
+					{/* New page with the username and verify button */}
+					{/* Verify link: /webauthn/signinrequest?proxyid={proxyID} */}
+					{proxyID && <p>QR with proxyID {proxyID}</p>}
 				</div>
 			</form>
 		</div>
